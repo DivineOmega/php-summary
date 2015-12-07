@@ -61,22 +61,14 @@ class Summary
   public function getSentencesRanks() {
   	$sentences = $this->getSentences($this->content);
     $n = count($sentences);
-  	$zeroNRange = range(0, n);
-  	$nRange = range(n);
+  	$zeroNRange = range(0, $n);
+  	$nRange = range(0, $n);
 
 		$values = [];
-    $_val = [];
-		foreach($nRange as $x) {
-			$_val = [];
-			foreach($nRange as $y) {
-				$_val[] = 0;
-			}
-			$values[] = $_val;
-		}
 
 		// Assign each score to each sentence
-		foreach($zeroNRange as $i) {
-			foreach($zeroNRange as $j) {
+    for ($i=0; $i < $n; $i++) {
+      for ($j=0; $j < $n; $j++) {
 				$intersection = $this->sentencesIntersection($sentences[$i], $sentences[$j]);
 				$values[$i][$j] = $intersection;
 			}
@@ -86,8 +78,18 @@ class Summary
 		$sentencesDict = [];
     $score = 0;
 
-		// TODO: Loop through multi-dimensional zeroNRange
-    //       and add sentence and score to dictionary
+    for ($i=0; $i < $n; $i++) {
+      for ($j=0; $j < $n; $j++) {
+        if ($i==$j) {
+          continue;
+        }
+
+        $score += $values[$i][$j];
+      }
+
+      $sentenceSHA1 = sha1($sentences[$i]);
+      $sentencesDict[$sentenceSHA1] = $score;
+    }
 
 		return $sentencesDict;
 	}
