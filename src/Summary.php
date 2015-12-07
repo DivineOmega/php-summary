@@ -74,11 +74,11 @@ class Summary
 			}
 		}
 
-		// Build sentence score dictionary
-		$sentencesDict = [];
-    $score = 0;
+		// Build sentences object array
+		$sentenceObjs = [];
 
     for ($i=0; $i < $n; $i++) {
+      $score = 0;
       for ($j=0; $j < $n; $j++) {
         if ($i==$j) {
           continue;
@@ -87,11 +87,14 @@ class Summary
         $score += $values[$i][$j];
       }
 
-      $sentenceSHA1 = sha1($sentences[$i]);
-      $sentencesDict[$sentenceSHA1] = $score;
+      $sentenceObj = new \stdClass;
+      $sentenceObj->sentence = $sentences[$i];
+      $sentenceObj->score = $score;
+
+      $sentenceObjs[] = $sentenceObj;
     }
 
-		return $sentencesDict;
+		return $sentenceObjs;
 	}
 
 }
