@@ -87,7 +87,7 @@ class SummaryTool
     }
 
     $highestScore = 0;
-    $bestSentence = 0;
+    $bestSentence = null;
 
     foreach($sentences as $sentence) {
       foreach($sentenceRankings as $sentenceRanking)
