@@ -42,8 +42,6 @@ class SummaryTool
   private function getSentencesRanks($content) {
   	$sentences = $this->getSentences($content);
     $n = count($sentences);
-  	$zeroNRange = range(0, $n);
-  	$nRange = range(0, $n);
 
 		$values = [];
 
