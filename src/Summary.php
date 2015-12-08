@@ -75,7 +75,7 @@ class Summary
 		}
 
 		// Build sentences object array
-		$sentenceObjs = [];
+		$sentenceRankings = [];
 
     for ($i=0; $i < $n; $i++) {
       $score = 0;
@@ -87,17 +87,17 @@ class Summary
         $score += $values[$i][$j];
       }
 
-      $sentenceObj = new \stdClass;
-      $sentenceObj->sentence = $sentences[$i];
-      $sentenceObj->score = $score;
+      $sentenceRanking = new \stdClass;
+      $sentenceRanking->sentence = $sentences[$i];
+      $sentenceRanking->score = $score;
 
-      $sentenceObjs[] = $sentenceObj;
+      $sentenceRankings[] = $sentenceRanking;
     }
 
-		return $sentenceObjs;
+		return $sentenceRankings;
 	}
 
-  private function getBestSentence($paragraph, $sentenceObjs) {
+  private function getBestSentence($paragraph, $sentenceRankings) {
 
     $sentences = $this->getSentences($paragraph);
 
@@ -109,12 +109,12 @@ class Summary
     $bestSentence = 0;
 
     foreach($sentences as $sentence) {
-      foreach($sentenceObjs as $sentenceObj)
+      foreach($sentenceRankings as $sentenceRanking)
       {
-        if ($sentenceObj->sentence == $sentence && $sentenceObj->score > $highestScore)
+        if ($sentenceRanking->sentence == $sentence && $sentenceRanking->score > $highestScore)
         {
-          $highestScore = $sentenceObj->score;
-          $bestSentence = $sentenceObj->sentence;
+          $highestScore = $sentenceRanking->score;
+          $bestSentence = $sentenceRanking->sentence;
         }
       }
     }
@@ -124,7 +124,7 @@ class Summary
 
   public function getSummary() {
 
-    $sentenceObjs = $this->getSentencesRanks($this->content);
+    $sentenceRankings = $this->getSentencesRanks($this->content);
 
     $paragraphs = $this->getParagraphs($this->content);
 
@@ -132,7 +132,7 @@ class Summary
     $summary .= "\n\n";
 
     foreach($paragraphs as $paragraph) {
-      $bestSentence = $this->getBestSentence($paragraph, $sentenceObjs);
+      $bestSentence = $this->getBestSentence($paragraph, $sentenceRankings);
 
       if ($bestSentence) {
         $summary .= $bestSentence;
