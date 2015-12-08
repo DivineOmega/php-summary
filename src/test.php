@@ -1,6 +1,6 @@
 <?php
 
-require_once "Summary.php";
+require_once "SummaryTool.php";
 require_once "SentenceTokenizer.php";
 
 $title = "The Top Functional Foods of 2010";
@@ -11,9 +11,9 @@ What do functional foods mean? According to the April 2009 position on functiona
 
 What’s driving the interest in functional foods? Barbara Katz, president of HealthFocus International, a nutrition market research company based in St. Petersburg, FL, believes that consumers are more savvy regarding their health. People no longer receive all of their health advice at the doctor’s office; they now take control. And this is reflected in their shopping habits, as people purchase more foods with health benefits. \"One of the biggest trends is the increase in control shoppers want over their own health. Shoppers now want to be a part of the dialogue and are increasingly going to the Internet and to one another to seek answers to questions and gather information about health,\" adds Katz. The anti-functional food movement. Ironically, one of the hottest trends in the food scene is an emphasis on pure, clean foods—free of toxins, chemicals and additives. The pure food movement even extends into cleaner packages that feature minimal labeling and see-through covers that allow consumers to view how \"pure\" products really are. Maybe this movement is onto something, because the best functional foods on our list are those that are minimally processed, in their whole state, and naturally rich in vitamins, minerals, fiber and antioxidants.";
 
-$summaryObj = new \DivineOmega\PHPSummary\Summary($title, $content);
+$summaryTool = new \DivineOmega\PHPSummary\SummaryTool($title, $content);
 
-$summary = $summaryObj->getSummary();
+$summary = $summaryTool->getSummary();
 
 echo $summary;
 

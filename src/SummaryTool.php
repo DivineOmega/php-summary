@@ -3,7 +3,7 @@ namespace DivineOmega\PHPSummary;
 
 use DivineOmega\PHPSummary\SentenceTokenizer;
 
-class Summary
+class SummaryTool
 {
   private $title = null;
   private $content = null;
