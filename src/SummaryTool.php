@@ -115,11 +115,11 @@ class SummaryTool
 
       if ($bestSentence) {
         $summary .= $bestSentence;
-        $summary .= " ";
+        $summary .= "\n";
       }
     }
 
-    $summary .= "\n\n";
+    $summary .= "\n";
 
     return $summary;
   }
