@@ -14,7 +14,7 @@ class Summary
   }
 
   private function getParagraphs($content) {
-    return explode('\n\n', $content);;
+    return explode("\n\n", $content);
   }
 
   private function getSentences($content) {
@@ -58,8 +58,8 @@ class Summary
     return count($splicedIntersect);
   }
 
-  public function getSentencesRanks() {
-  	$sentences = $this->getSentences($this->content);
+  private function getSentencesRanks($content) {
+  	$sentences = $this->getSentences($content);
     $n = count($sentences);
   	$zeroNRange = range(0, $n);
   	$nRange = range(0, $n);
@@ -96,6 +96,54 @@ class Summary
 
 		return $sentenceObjs;
 	}
+
+  private function getBestSentence($paragraph, $sentenceObjs) {
+
+    $sentences = $this->getSentences($paragraph);
+
+    if (count($sentences)<2) {
+      return;
+    }
+
+    $highestScore = 0;
+    $bestSentence = 0;
+
+    foreach($sentences as $sentence) {
+      foreach($sentenceObjs as $sentenceObj)
+      {
+        if ($sentenceObj->sentence == $sentence && $sentenceObj->score > $highestScore)
+        {
+          $highestScore = $sentenceObj->score;
+          $bestSentence = $sentenceObj->sentence;
+        }
+      }
+    }
+
+    return $bestSentence;
+  }
+
+  public function getSummary() {
+
+    $sentenceObjs = $this->getSentencesRanks($this->content);
+
+    $paragraphs = $this->getParagraphs($this->content);
+
+    $summary = $this->title;
+    $summary .= "\n\n";
+
+    foreach($paragraphs as $paragraph) {
+      $bestSentence = $this->getBestSentence($paragraph, $sentenceObjs);
+
+      if ($bestSentence) {
+        $summary .= $bestSentence;
+        $summary .= " ";
+      }
+    }
+
+    $summary .= "\n\n";
+
+    return $summary;
+  }
 
 }
 

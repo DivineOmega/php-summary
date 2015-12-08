@@ -12,7 +12,7 @@ class SentenceTokenizer
   public function getSentences() {
 
     if (!trim($this->content)) {
-      throw new \Exception("There is not content to tokenize.");
+      return [];
     }
 
     $contentParts = preg_split("/([\.\!\?])+/", $this->content, -1, PREG_SPLIT_DELIM_CAPTURE);
