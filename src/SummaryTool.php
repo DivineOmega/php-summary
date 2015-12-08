@@ -23,25 +23,6 @@ class SummaryTool
     return $sentenceTokenizer->getSentences();
   }
 
-  private function intersectSafe($a, $b) {
-    $ai = 0;
-    $bi = 0;
-    $result = [];
-
-  	while($ai < count($a) && $bi < count($b)) {
-  		if      ($a[$ai] < $b[$bi] ){ $ai++; }
-  		else if ($a[$ai] > $b[$bi] ){ $bi++; }
-  		else /* they're equal */
-  		{
-  			$result[] = $a[$ai];
-  			$ai++;
-  			$bi++;
-  		}
-  	}
-
-  	return $result;
-  }
-
   private function sentencesIntersection($sent1, $sent2) {
   	$s1 = explode(' ', $sent1);
   	$s2 = explode(' ', $sent2);
@@ -50,7 +31,7 @@ class SummaryTool
   		return true;
   	}
 
-  	$intersect  = $this->intersectSafe($s1, $s2);
+  	$intersect  = array_intersect($s1, $s2);
   	$splicePoint = ((count($s1) + count($s2)) / 2);
 
     $splicedIntersect = array_splice($intersect, 0, $splicePoint);
