@@ -1,0 +1,21 @@
+{
+    "name": "divineomega/php-summary",
+    "type": "library",
+    "description": "PHP Summarization Library",
+    "keywords": ["summarizing", "summary", "summarization", "summarization library", "library", "php"],
+    "homepage": "https://github.com/DivineOmega/php-summary",
+    "license": "LGPL3",
+    "require": {
+        "php": ">=5.2.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "DivineOmega\\PHPSummary\\": "src/"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0-dev"
+        }
+    }
+}
