@@ -13,3 +13,12 @@ Require this package, with [Composer](https://getcomposer.org/), in the root dir
 ```bash
 composer require divineomega/php-summary
 ```
+
+## Usage
+
+To use PHP Summary, you should create a new `SummaryTool` object, passing it the title and plain text content of your article. You can then call its `getSummary` method to retrieve the shortened summary of the article.
+
+```php
+$summaryTool = new SummaryTool($title, $content);
+$summary = $summaryTool->getSummary();
+```
