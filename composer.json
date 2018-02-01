@@ -4,7 +4,7 @@
     "description": "PHP Summarization Library",
     "keywords": ["summarizing", "summary", "summarization", "summarization library", "library", "php"],
     "homepage": "https://github.com/DivineOmega/php-summary",
-    "license": "LGPL3",
+    "license": "LGPL-3.0-only",
     "require": {
         "php": ">=5.2.1"
     },
