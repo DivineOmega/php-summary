@@ -101,25 +101,49 @@ class SummaryTool
     return $bestSentence;
   }
 
-  public function getSummary() {
-
+  public function getSummarySentences()
+  {
     $sentenceRankings = $this->getSentencesRanks($this->content);
 
     $paragraphs = $this->getParagraphs($this->content);
 
-    $summary = $this->title;
-    $summary .= "\n\n";
+    $sentences = [];
 
     foreach($paragraphs as $paragraph) {
       $bestSentence = $this->getBestSentence($paragraph, $sentenceRankings);
 
       if ($bestSentence) {
-        $summary .= $bestSentence;
-        $summary .= "\n";
+        $sentences[] = $bestSentence;
       }
     }
 
-    $summary .= "\n";
+    return $sentences;
+  }
+
+  public function getSummaryWithoutTitle()
+  {
+    $sentences = $this->getSummarySentences();
+
+    $summary = "";
+
+    foreach($sentences as $sentence) {
+        $summary .= $sentence;
+        $summary .= " ";
+    }
+
+    $summary = trim($summary);
+
+    return $summary;
+  }
+
+  public function getSummary() {
+
+    $summary = $this->title;
+    $summary .= "\n\n";
+
+    $summary .= $this->getSummaryWithoutTitle();
+
+    $summary .= "\n\n";
 
     return $summary;
   }
