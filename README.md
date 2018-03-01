@@ -1,5 +1,7 @@
 # PHP Summary
 
+![Packagist](https://img.shields.io/packagist/dt/DivineOmega/php-summary.svg)
+
 A PHP library to automatically summarise text using a naive summerisation algorithm.
 
 This summerisation algorithm in use takes the key sentence from each paragraph. It then strings these resulting sentences together to form to summary.
