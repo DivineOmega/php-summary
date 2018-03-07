@@ -1,7 +1,6 @@
 <?php
 
-require_once "SummaryTool.php";
-require_once "SentenceTokenizer.php";
+require_once __DIR__.'/../vendor/autoload.php';
 
 $title = "The Top Functional Foods of 2010";
 
