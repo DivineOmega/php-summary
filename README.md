@@ -18,9 +18,10 @@ composer require divineomega/php-summary
 
 ## Usage
 
-To use PHP Summary, you should create a new `SummaryTool` object, passing it the title and plain text content of your article. You can then call its `getSummary` method to retrieve the shortened summary of the article.
+To use PHP Summary, you should create a new `SummaryTool` object, passing it the text content of your article. You can then call its `getSummary` method to retrieve the shortened summary of the article.
+
+Note: The article content must have its paragraphs seperated by two new line characters.
 
 ```php
-$summaryTool = new SummaryTool($title, $content);
-$summary = $summaryTool->getSummary();
+$summary = (new SummaryTool($content))->getSummary();
 ```

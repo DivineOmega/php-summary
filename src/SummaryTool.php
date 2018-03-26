@@ -5,16 +5,14 @@ use DivineOmega\PHPSummary\SentenceTokenizer;
 
 class SummaryTool
 {
-  private $title = null;
-  private $content = null;
+  private $content;
 
-  public function __construct($title, $content) {
-    $this->title = $title;
+  public function __construct($content) {
     $this->content = $content;
   }
 
   private function getParagraphs($content) {
-    return explode("\n\n", $content);
+    return explode(PHP_EOL.PHP_EOL, $content);
   }
 
   private function getSentences($content) {
@@ -120,7 +118,7 @@ class SummaryTool
     return $sentences;
   }
 
-  public function getSummaryWithoutTitle()
+  public function getSummary()
   {
     $sentences = $this->getSummarySentences();
 
@@ -131,21 +129,7 @@ class SummaryTool
         $summary .= " ";
     }
 
-    $summary = trim($summary);
-
-    return $summary;
-  }
-
-  public function getSummary() {
-
-    $summary = $this->title;
-    $summary .= "\n\n";
-
-    $summary .= $this->getSummaryWithoutTitle();
-
-    $summary .= "\n\n";
-
-    return $summary;
+    return trim($summary);
   }
 
 }
