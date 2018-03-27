@@ -1,137 +1,137 @@
 <?php
-namespace DivineOmega\PHPSummary;
 
-use DivineOmega\PHPSummary\SentenceTokenizer;
+namespace DivineOmega\PHPSummary;
 
 class SummaryTool
 {
-  private $content;
+    private $content;
 
-  public function __construct($content) {
-    $this->content = $content;
-  }
+    public function __construct($content)
+    {
+        $this->content = $content;
+    }
 
-  private function getParagraphs($content) {
-    return explode(PHP_EOL.PHP_EOL, $content);
-  }
+    private function getParagraphs($content)
+    {
+        return explode(PHP_EOL.PHP_EOL, $content);
+    }
 
-  private function getSentences($content) {
-    $sentenceTokenizer = new SentenceTokenizer();
-    $sentenceTokenizer->setContent($content);
-    return $sentenceTokenizer->getSentences();
-  }
+    private function getSentences($content)
+    {
+        $sentenceTokenizer = new SentenceTokenizer();
+        $sentenceTokenizer->setContent($content);
 
-  private function sentencesIntersection($sent1, $sent2) {
-  	$s1 = explode(' ', $sent1);
-  	$s2 = explode(' ', $sent2);
+        return $sentenceTokenizer->getSentences();
+    }
 
-  	if(count($s1) + count($s2) === 0) {
-  		return true;
-  	}
+    private function sentencesIntersection($sent1, $sent2)
+    {
+        $s1 = explode(' ', $sent1);
+        $s2 = explode(' ', $sent2);
 
-  	$intersect  = array_intersect($s1, $s2);
-  	$splicePoint = ((count($s1) + count($s2)) / 2);
-
-    $splicedIntersect = array_splice($intersect, 0, $splicePoint);
-
-    return count($splicedIntersect);
-  }
-
-  private function getSentencesRanks($content) {
-  	$sentences = $this->getSentences($content);
-    $n = count($sentences);
-
-		$values = [];
-
-		// Assign each score to each sentence
-    for ($i=0; $i < $n; $i++) {
-      for ($j=0; $j < $n; $j++) {
-				$intersection = $this->sentencesIntersection($sentences[$i], $sentences[$j]);
-				$values[$i][$j] = $intersection;
-			}
-		}
-
-		// Build sentences object array
-		$sentenceRankings = [];
-
-    for ($i=0; $i < $n; $i++) {
-      $score = 0;
-      for ($j=0; $j < $n; $j++) {
-        if ($i==$j) {
-          continue;
+        if (count($s1) + count($s2) === 0) {
+            return true;
         }
 
-        $score += $values[$i][$j];
-      }
+        $intersect = array_intersect($s1, $s2);
+        $splicePoint = ((count($s1) + count($s2)) / 2);
 
-      $sentenceRanking = new \stdClass;
-      $sentenceRanking->sentence = $sentences[$i];
-      $sentenceRanking->score = $score;
+        $splicedIntersect = array_splice($intersect, 0, $splicePoint);
 
-      $sentenceRankings[] = $sentenceRanking;
+        return count($splicedIntersect);
     }
 
-		return $sentenceRankings;
-	}
+    private function getSentencesRanks($content)
+    {
+        $sentences = $this->getSentences($content);
+        $n = count($sentences);
 
-  private function getBestSentence($paragraph, $sentenceRankings) {
+        $values = [];
 
-    $sentences = $this->getSentences($paragraph);
-
-    if (count($sentences)<2) {
-      return;
-    }
-
-    $highestScore = 0;
-    $bestSentence = null;
-
-    foreach($sentences as $sentence) {
-      foreach($sentenceRankings as $sentenceRanking)
-      {
-        if ($sentenceRanking->sentence == $sentence && $sentenceRanking->score > $highestScore)
-        {
-          $highestScore = $sentenceRanking->score;
-          $bestSentence = $sentenceRanking->sentence;
+        // Assign each score to each sentence
+        for ($i = 0; $i < $n; $i++) {
+            for ($j = 0; $j < $n; $j++) {
+                $intersection = $this->sentencesIntersection($sentences[$i], $sentences[$j]);
+                $values[$i][$j] = $intersection;
+            }
         }
-      }
+
+        // Build sentences object array
+        $sentenceRankings = [];
+
+        for ($i = 0; $i < $n; $i++) {
+            $score = 0;
+            for ($j = 0; $j < $n; $j++) {
+                if ($i == $j) {
+                    continue;
+                }
+
+                $score += $values[$i][$j];
+            }
+
+            $sentenceRanking = new \stdClass();
+            $sentenceRanking->sentence = $sentences[$i];
+            $sentenceRanking->score = $score;
+
+            $sentenceRankings[] = $sentenceRanking;
+        }
+
+        return $sentenceRankings;
     }
 
-    return $bestSentence;
-  }
+    private function getBestSentence($paragraph, $sentenceRankings)
+    {
+        $sentences = $this->getSentences($paragraph);
 
-  public function getSummarySentences()
-  {
-    $sentenceRankings = $this->getSentencesRanks($this->content);
+        if (count($sentences) < 2) {
+            return;
+        }
 
-    $paragraphs = $this->getParagraphs($this->content);
+        $highestScore = 0;
+        $bestSentence = null;
 
-    $sentences = [];
+        foreach ($sentences as $sentence) {
+            foreach ($sentenceRankings as $sentenceRanking) {
+                if ($sentenceRanking->sentence == $sentence && $sentenceRanking->score > $highestScore) {
+                    $highestScore = $sentenceRanking->score;
+                    $bestSentence = $sentenceRanking->sentence;
+                }
+            }
+        }
 
-    foreach($paragraphs as $paragraph) {
-      $bestSentence = $this->getBestSentence($paragraph, $sentenceRankings);
-
-      if ($bestSentence) {
-        $sentences[] = $bestSentence;
-      }
+        return $bestSentence;
     }
 
-    return $sentences;
-  }
+    public function getSummarySentences()
+    {
+        $sentenceRankings = $this->getSentencesRanks($this->content);
 
-  public function getSummary()
-  {
-    $sentences = $this->getSummarySentences();
+        $paragraphs = $this->getParagraphs($this->content);
 
-    $summary = "";
+        $sentences = [];
 
-    foreach($sentences as $sentence) {
-        $summary .= $sentence;
-        $summary .= " ";
+        foreach ($paragraphs as $paragraph) {
+            $bestSentence = $this->getBestSentence($paragraph, $sentenceRankings);
+
+            if ($bestSentence) {
+                $sentences[] = $bestSentence;
+            }
+        }
+
+        return $sentences;
     }
 
-    return trim($summary);
-  }
+    public function getSummary()
+    {
+        $sentences = $this->getSummarySentences();
 
+        $summary = '';
+
+        foreach ($sentences as $sentence) {
+            $summary .= $sentence;
+            $summary .= ' ';
+        }
+
+        return trim($summary);
+    }
 }
-
-?>
