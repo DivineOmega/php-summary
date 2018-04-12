@@ -1,5 +1,6 @@
 # PHP Summary
 
+[![StyleCI](https://styleci.io/repos/47579407/shield?branch=master)](https://styleci.io/repos/47579407)
 ![Packagist](https://img.shields.io/packagist/dt/DivineOmega/php-summary.svg)
 
 A PHP library to automatically summarise text using a naive summerisation algorithm.
