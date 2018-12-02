@@ -53,7 +53,7 @@ class SummaryToolTest extends TestCase
             [
                 '',
                 [],
-            ]
+            ],
         ];
     }
 
