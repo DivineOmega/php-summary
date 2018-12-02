@@ -6,11 +6,20 @@
     "homepage": "https://github.com/DivineOmega/php-summary",
     "license": "LGPL-3.0-only",
     "require": {
-        "php": ">=5.2.1"
+        "php": ">=7.1"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^7.0",
+        "php-coveralls/php-coveralls": "^2.1"
     },
     "autoload": {
         "psr-4": {
             "DivineOmega\\PHPSummary\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "DivineOmega\\PHPSummary\\Tests\\": "tests/Unit/"
         }
     },
     "extra": {
