@@ -1,5 +1,7 @@
 # PHP Summary
 
+[![Build Status](https://travis-ci.org/peter279k/php-summary.svg?branch=master)](https://travis-ci.org/peter279k/php-summary)
+[![Coverage Status](https://coveralls.io/repos/github/peter279k/php-summary/badge.svg?branch=test_enhancement)](https://coveralls.io/github/peter279k/php-summary?branch=test_enhancement)
 [![StyleCI](https://styleci.io/repos/47579407/shield?branch=master)](https://styleci.io/repos/47579407)
 ![Packagist](https://img.shields.io/packagist/dt/DivineOmega/php-summary.svg)
 
