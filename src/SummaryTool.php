@@ -6,17 +6,17 @@ class SummaryTool
 {
     private $content;
 
-    public function __construct($content)
+    public function __construct(string $content)
     {
         $this->content = $content;
     }
 
-    private function getParagraphs($content)
+    private function getParagraphs(string $content): array
     {
         return explode(PHP_EOL.PHP_EOL, $content);
     }
 
-    private function getSentences($content)
+    private function getSentences(string $content): array
     {
         $sentenceTokenizer = new SentenceTokenizer();
         $sentenceTokenizer->setContent($content);
@@ -24,7 +24,10 @@ class SummaryTool
         return $sentenceTokenizer->getSentences();
     }
 
-    private function sentencesIntersection($sent1, $sent2)
+    /**
+     * @return bool|int
+     */
+    private function sentencesIntersection(string $sent1, string $sent2)
     {
         $s1 = explode(' ', $sent1);
         $s2 = explode(' ', $sent2);
@@ -41,7 +44,7 @@ class SummaryTool
         return count($splicedIntersect);
     }
 
-    private function getSentencesRanks($content)
+    private function getSentencesRanks(string $content): array
     {
         $sentences = $this->getSentences($content);
         $n = count($sentences);
@@ -79,12 +82,12 @@ class SummaryTool
         return $sentenceRankings;
     }
 
-    private function getBestSentence($paragraph, $sentenceRankings)
+    private function getBestSentence(string $paragraph, array $sentenceRankings): ?string
     {
         $sentences = $this->getSentences($paragraph);
 
         if (count($sentences) < 2) {
-            return;
+            return null;
         }
 
         $highestScore = 0;
@@ -102,7 +105,7 @@ class SummaryTool
         return $bestSentence;
     }
 
-    public function getSummarySentences()
+    public function getSummarySentences(): array
     {
         $sentenceRankings = $this->getSentencesRanks($this->content);
 
@@ -121,7 +124,7 @@ class SummaryTool
         return $sentences;
     }
 
-    public function getSummary()
+    public function getSummary(): string
     {
         $sentences = $this->getSummarySentences();
 

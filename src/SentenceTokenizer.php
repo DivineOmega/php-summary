@@ -6,12 +6,12 @@ class SentenceTokenizer
 {
     private $content = null;
 
-    public function setContent($content)
+    public function setContent(?string $content): void
     {
         $this->content = $content;
     }
 
-    public function getSentences()
+    public function getSentences(): array
     {
         if (!trim($this->content)) {
             return [];
